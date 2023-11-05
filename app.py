@@ -241,7 +241,7 @@ app.layout = html.Div([
                     ],label='Project',tab_id='project_tab',className='tab_ind'),
                     dbc.Tab([
                         html.P("The dataset was classified into four product categories namely: Cereal Packs, Chicken Packs, Call to Order and others to facilitate readability due to large number of products."),
-                        html.Ul([
+                        html.Ol([
                             html.Li("Cereal Packs: The products here are products that must go with cereal."),
                             html.Li("Chicken Packs: Chicken Packs are packages that only include chicken products."),
                             html.Li("Call to Order: This peoduct category has to do with only products that are made when there are ordered."),
@@ -1283,26 +1283,29 @@ def comp_dataset_filter(group):
     Input('comp_date-picker2','end_date'),
 )
 def comp_date_filter(group,start_date1,end_date1,start_date2,end_date2):
-    if not group:
-        grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
-    elif group =='cereal_packages':
-        grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
-    elif group == 'chicken_packages':
-        grouped_df2 = df2[df2['Items'].isin(chicken_packages)]
-    elif group == 'call_to_order':
-        grouped_df2 = df2[df2['Items'].isin(call_to_order)]
-    else:
-        grouped_df2 = df2[df2['Items'].isin(others)]
+    try:    
+        if not group:
+            grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
+        elif group =='cereal_packages':
+            grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
+        elif group == 'chicken_packages':
+            grouped_df2 = df2[df2['Items'].isin(chicken_packages)]
+        elif group == 'call_to_order':
+            grouped_df2 = df2[df2['Items'].isin(call_to_order)]
+        else:
+            grouped_df2 = df2[df2['Items'].isin(others)]
 
-    date_filtered1 = grouped_df2[(grouped_df2['Date']>=start_date1) & (grouped_df2['Date']<=end_date1)]
-    date_filtered2 = grouped_df2[(grouped_df2['Date']>=start_date2) & (grouped_df2['Date']<=end_date2)]
-    
-    options1 = [{'label':val,'value':val} for val in date_filtered1['Month'].unique()]
-    value1 = date_filtered1['Month'].unique()[0]
-    options2 = [{'label':val,'value':val} for val in date_filtered2['Month'].unique()]
-    value2 = date_filtered2['Month'].unique()[0]
+        date_filtered1 = grouped_df2[(grouped_df2['Date']>=start_date1) & (grouped_df2['Date']<=end_date1)]
+        date_filtered2 = grouped_df2[(grouped_df2['Date']>=start_date2) & (grouped_df2['Date']<=end_date2)]
+        
+        options1 = [{'label':val,'value':val} for val in date_filtered1['Month'].unique()]
+        value1 = date_filtered1['Month'].unique()[0]
+        options2 = [{'label':val,'value':val} for val in date_filtered2['Month'].unique()]
+        value2 = date_filtered2['Month'].unique()[0]
 
-    return options1, value1, options2, value2
+        return options1, value1, options2, value2
+    except IndexError:
+        return dash.no_update
 
 @app.callback(
     Output('comp_week_selector1', 'options'),
@@ -1318,43 +1321,45 @@ def comp_date_filter(group,start_date1,end_date1,start_date2,end_date2):
     Input('comp_month_selector2','value'),
 )
 def comp_month_filter(group,start_date1,end_date1,start_date2,end_date2,month1,month2):
-    if not group:
-        grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
-    elif group =='cereal_packages':
-        grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
-    elif group == 'chicken_packages':
-        grouped_df2 = df2[df2['Items'].isin(chicken_packages)]
-    elif group == 'call_to_order':
-        grouped_df2 = df2[df2['Items'].isin(call_to_order)]
-    else:
-        grouped_df2 = df2[df2['Items'].isin(others)]
+    try:
+        if not group:
+            grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
+        elif group =='cereal_packages':
+            grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
+        elif group == 'chicken_packages':
+            grouped_df2 = df2[df2['Items'].isin(chicken_packages)]
+        elif group == 'call_to_order':
+            grouped_df2 = df2[df2['Items'].isin(call_to_order)]
+        else:
+            grouped_df2 = df2[df2['Items'].isin(others)]
 
-    date_filtered1 = grouped_df2[(grouped_df2['Date']>=start_date1) & (grouped_df2['Date']<=end_date1)]
-    date_filtered2 = grouped_df2[(grouped_df2['Date']>=start_date2) & (grouped_df2['Date']<=end_date2)]
-    
-    if not month1:
-        month_filtered1 = date_filtered1
-    else:
-        try:
-            month_filtered1 = date_filtered1[date_filtered1['Month'] == month1]
-        except ValueError:
-            month_filtered1 = date_filtered1[date_filtered1['Month'].isin(month1)]
-    
-    if not month2:
-        month_filtered2 = date_filtered2
-    else:
-        try:
-            month_filtered2 = date_filtered2[date_filtered2['Month'] == month2]
-        except ValueError:
-            month_filtered2 = date_filtered2[date_filtered2['Month'].isin(month2)]
+        date_filtered1 = grouped_df2[(grouped_df2['Date']>=start_date1) & (grouped_df2['Date']<=end_date1)]
+        date_filtered2 = grouped_df2[(grouped_df2['Date']>=start_date2) & (grouped_df2['Date']<=end_date2)]
+        
+        if not month1:
+            month_filtered1 = date_filtered1
+        else:
+            try:
+                month_filtered1 = date_filtered1[date_filtered1['Month'] == month1]
+            except ValueError:
+                month_filtered1 = date_filtered1[date_filtered1['Month'].isin(month1)]
+        
+        if not month2:
+            month_filtered2 = date_filtered2
+        else:
+            try:
+                month_filtered2 = date_filtered2[date_filtered2['Month'] == month2]
+            except ValueError:
+                month_filtered2 = date_filtered2[date_filtered2['Month'].isin(month2)]
 
-    options1 = [{'label':val,'value':val} for val in month_filtered1['Month Weeks'].unique()]
-    value1 = month_filtered1['Month Weeks'].unique()[0]
-    options2 = [{'label':val,'value':val} for val in month_filtered2['Month Weeks'].unique()]
-    value2 = month_filtered2['Month Weeks'].unique()[0]
+        options1 = [{'label':val,'value':val} for val in month_filtered1['Month Weeks'].unique()]
+        value1 = month_filtered1['Month Weeks'].unique()[0]
+        options2 = [{'label':val,'value':val} for val in month_filtered2['Month Weeks'].unique()]
+        value2 = month_filtered2['Month Weeks'].unique()[0]
 
-    return options1, value1, options2, value2
-
+        return options1, value1, options2, value2
+    except IndexError:
+        return dash.no_update
 
 @app.callback(
     Output('comp_weekday_selector1', 'options'),
@@ -1372,58 +1377,61 @@ def comp_month_filter(group,start_date1,end_date1,start_date2,end_date2,month1,m
     Input('comp_week_selector2','value')
 )
 def comp_week_filter(group,start_date1,end_date1,start_date2,end_date2,month1,month2,week1,week2):
-    if not group:
-        grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
-    elif group =='cereal_packages':
-        grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
-    elif group == 'chicken_packages':
-        grouped_df2 = df2[df2['Items'].isin(chicken_packages)]
-    elif group == 'call_to_order':
-        grouped_df2 = df2[df2['Items'].isin(call_to_order)]
-    else:
-        grouped_df2 = df2[df2['Items'].isin(others)]
+    try:   
+        if not group:
+            grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
+        elif group =='cereal_packages':
+            grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
+        elif group == 'chicken_packages':
+            grouped_df2 = df2[df2['Items'].isin(chicken_packages)]
+        elif group == 'call_to_order':
+            grouped_df2 = df2[df2['Items'].isin(call_to_order)]
+        else:
+            grouped_df2 = df2[df2['Items'].isin(others)]
 
-    date_filtered1 = grouped_df2[(grouped_df2['Date']>=start_date1) & (grouped_df2['Date']<=end_date1)]
-    date_filtered2 = grouped_df2[(grouped_df2['Date']>=start_date2) & (grouped_df2['Date']<=end_date2)]
-    
-    if not month1:
-        month_filtered1 = date_filtered1
-    else:
-        try:
-            month_filtered1 = date_filtered1[date_filtered1['Month'] == month1]
-        except ValueError:
-            month_filtered1 = date_filtered1[date_filtered1['Month'].isin(month1)]
-    
-    if not month2:
-        month_filtered2 = date_filtered2
-    else:
-        try:
-            month_filtered2 = date_filtered2[date_filtered2['Month'] == month2]
-        except ValueError:
-            month_filtered2 = date_filtered2[date_filtered2['Month'].isin(month2)]
+        date_filtered1 = grouped_df2[(grouped_df2['Date']>=start_date1) & (grouped_df2['Date']<=end_date1)]
+        date_filtered2 = grouped_df2[(grouped_df2['Date']>=start_date2) & (grouped_df2['Date']<=end_date2)]
+        
+        if not month1:
+            month_filtered1 = date_filtered1
+        else:
+            try:
+                month_filtered1 = date_filtered1[date_filtered1['Month'] == month1]
+            except ValueError:
+                month_filtered1 = date_filtered1[date_filtered1['Month'].isin(month1)]
+        
+        if not month2:
+            month_filtered2 = date_filtered2
+        else:
+            try:
+                month_filtered2 = date_filtered2[date_filtered2['Month'] == month2]
+            except ValueError:
+                month_filtered2 = date_filtered2[date_filtered2['Month'].isin(month2)]
 
-    if not week1:
-        week_filtered1 = month_filtered1
-    else:
-        try:
-            week_filtered1 = month_filtered1[month_filtered1['Month Weeks'] == week1]
-        except ValueError:
-            week_filtered1 = month_filtered1[month_filtered1['Month Weeks'].isin(week1)]
+        if not week1:
+            week_filtered1 = month_filtered1
+        else:
+            try:
+                week_filtered1 = month_filtered1[month_filtered1['Month Weeks'] == week1]
+            except ValueError:
+                week_filtered1 = month_filtered1[month_filtered1['Month Weeks'].isin(week1)]
 
-    if not week2:
-        week_filtered2 = month_filtered2
-    else:
-        try:
-            week_filtered2 = month_filtered2[month_filtered2['Month Weeks'] == week2]
-        except ValueError:
-            week_filtered2 = month_filtered2[month_filtered2['Month Weeks'].isin(week2)]
-    
-    options1 = [{'label':val,'value':val} for val in week_filtered1['Week Days'].unique()]
-    value1 = week_filtered1['Week Days'].unique()[0]
-    options2 = [{'label':val,'value':val} for val in week_filtered2['Week Days'].unique()]
-    value2 = week_filtered2['Week Days'].unique()[0]
-    
-    return options1, value1, options2, value2
+        if not week2:
+            week_filtered2 = month_filtered2
+        else:
+            try:
+                week_filtered2 = month_filtered2[month_filtered2['Month Weeks'] == week2]
+            except ValueError:
+                week_filtered2 = month_filtered2[month_filtered2['Month Weeks'].isin(week2)]
+        
+        options1 = [{'label':val,'value':val} for val in week_filtered1['Week Days'].unique()]
+        value1 = week_filtered1['Week Days'].unique()[0]
+        options2 = [{'label':val,'value':val} for val in week_filtered2['Week Days'].unique()]
+        value2 = week_filtered2['Week Days'].unique()[0]
+        
+        return options1, value1, options2, value2
+    except IndexError:
+        return dash.no_update
 
 @app.callback(
     Output('comp_product_selector1', 'options'),
@@ -1443,74 +1451,77 @@ def comp_week_filter(group,start_date1,end_date1,start_date2,end_date2,month1,mo
     Input('comp_weekday_selector2','value'),
 )
 def comp_day_filter(group,start_date1,end_date1,start_date2,end_date2,month1,month2,week1,week2,day1,day2):
-    if not group:
-        grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
-    elif group =='cereal_packages':
-        grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
-    elif group == 'chicken_packages':
-        grouped_df2 = df2[df2['Items'].isin(chicken_packages)]
-    elif group == 'call_to_order':
-        grouped_df2 = df2[df2['Items'].isin(call_to_order)]
-    else:
-        grouped_df2 = df2[df2['Items'].isin(others)]
+    try:
+        if not group:
+            grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
+        elif group =='cereal_packages':
+            grouped_df2 = df2[df2['Items'].isin(cereal_packages)]
+        elif group == 'chicken_packages':
+            grouped_df2 = df2[df2['Items'].isin(chicken_packages)]
+        elif group == 'call_to_order':
+            grouped_df2 = df2[df2['Items'].isin(call_to_order)]
+        else:
+            grouped_df2 = df2[df2['Items'].isin(others)]
 
-    date_filtered1 = grouped_df2[(grouped_df2['Date']>=start_date1) & (grouped_df2['Date']<=end_date1)]
-    date_filtered2 = grouped_df2[(grouped_df2['Date']>=start_date2) & (grouped_df2['Date']<=end_date2)]
-    
-    if not month1:
-        month_filtered1 = date_filtered1
-    else:
-        try:
-            month_filtered1 = date_filtered1[date_filtered1['Month'] == month1]
-        except ValueError:
-            month_filtered1 = date_filtered1[date_filtered1['Month'].isin(month1)]
-    
-    if not month2:
-        month_filtered2 = date_filtered2
-    else:
-        try:
-            month_filtered2 = date_filtered2[date_filtered2['Month'] == month2]
-        except ValueError:
-            month_filtered2 = date_filtered2[date_filtered2['Month'].isin(month2)]
+        date_filtered1 = grouped_df2[(grouped_df2['Date']>=start_date1) & (grouped_df2['Date']<=end_date1)]
+        date_filtered2 = grouped_df2[(grouped_df2['Date']>=start_date2) & (grouped_df2['Date']<=end_date2)]
+        
+        if not month1:
+            month_filtered1 = date_filtered1
+        else:
+            try:
+                month_filtered1 = date_filtered1[date_filtered1['Month'] == month1]
+            except ValueError:
+                month_filtered1 = date_filtered1[date_filtered1['Month'].isin(month1)]
+        
+        if not month2:
+            month_filtered2 = date_filtered2
+        else:
+            try:
+                month_filtered2 = date_filtered2[date_filtered2['Month'] == month2]
+            except ValueError:
+                month_filtered2 = date_filtered2[date_filtered2['Month'].isin(month2)]
 
-    if not week1:
-        week_filtered1 = month_filtered1
-    else:
-        try:
-            week_filtered1 = month_filtered1[month_filtered1['Month Weeks'] == week1]
-        except ValueError:
-            week_filtered1 = month_filtered1[month_filtered1['Month Weeks'].isin(week1)]
+        if not week1:
+            week_filtered1 = month_filtered1
+        else:
+            try:
+                week_filtered1 = month_filtered1[month_filtered1['Month Weeks'] == week1]
+            except ValueError:
+                week_filtered1 = month_filtered1[month_filtered1['Month Weeks'].isin(week1)]
 
-    if not week2:
-        week_filtered2 = month_filtered2
-    else:
-        try:
-            week_filtered2 = month_filtered2[month_filtered2['Month Weeks'] == week2]
-        except ValueError:
-            week_filtered2 = month_filtered2[month_filtered2['Month Weeks'].isin(week2)]
-    
-    if not day1:
-        weekday_filtered1 = week_filtered1
-    else:
-        try:
-            weekday_filtered1 = week_filtered1[week_filtered1['Week Days']==day1]
-        except ValueError:
-            weekday_filtered1 = week_filtered1[week_filtered1['Week Days'].isin(day1)]    
+        if not week2:
+            week_filtered2 = month_filtered2
+        else:
+            try:
+                week_filtered2 = month_filtered2[month_filtered2['Month Weeks'] == week2]
+            except ValueError:
+                week_filtered2 = month_filtered2[month_filtered2['Month Weeks'].isin(week2)]
+        
+        if not day1:
+            weekday_filtered1 = week_filtered1
+        else:
+            try:
+                weekday_filtered1 = week_filtered1[week_filtered1['Week Days']==day1]
+            except ValueError:
+                weekday_filtered1 = week_filtered1[week_filtered1['Week Days'].isin(day1)]    
 
-    if not day2:
-        weekday_filtered2 = week_filtered2
-    else:
-        try:
-            weekday_filtered2 = week_filtered2[week_filtered2['Week Days']==day2]
-        except ValueError:
-            weekday_filtered2 = week_filtered2[week_filtered1['Week Days'].isin(day2)]    
+        if not day2:
+            weekday_filtered2 = week_filtered2
+        else:
+            try:
+                weekday_filtered2 = week_filtered2[week_filtered2['Week Days']==day2]
+            except ValueError:
+                weekday_filtered2 = week_filtered2[week_filtered1['Week Days'].isin(day2)]    
 
-    options1 = [{'label':val,'value':val} for val in weekday_filtered1['Items'].unique()]
-    value1 = weekday_filtered1['Items'].unique()[0]
-    options2 = [{'label':val,'value':val} for val in weekday_filtered2['Items'].unique()]
-    value2 = weekday_filtered2['Items'].unique()[0]
-    
-    return options1, value1, options2, value2
+        options1 = [{'label':val,'value':val} for val in weekday_filtered1['Items'].unique()]
+        value1 = weekday_filtered1['Items'].unique()[0]
+        options2 = [{'label':val,'value':val} for val in weekday_filtered2['Items'].unique()]
+        value2 = weekday_filtered2['Items'].unique()[2]
+        
+        return options1, value1, options2, value2
+    except IndexError:
+        return dash.no_update
 
 @app.callback(
     Output('comp_plot', 'figure' ),
@@ -1649,6 +1660,7 @@ def comp_plotter(group,start_date1,end_date1,start_date2,end_date2,month1,month2
                 barmode='group')
         figure.update_layout(
             paper_bgcolor='#ece1dd',
+            legend_title='',
             plot_bgcolor='#ece1dd',
             legend=dict(orientation='h',yanchor='bottom',y=1.02,xanchor='right',x=1),
             barmode='group'

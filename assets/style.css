@@ -4,6 +4,11 @@ body {
   color: #021d3a;
 }
 
+.js-plotly-plot .plotly .modebar {
+  /* padding-top: 5%; */
+  margin: -.5%;
+}
+
 #main_header {
   position: fixed;
   top: 0;
@@ -429,6 +434,9 @@ select {
   display: flex;
   justify-content: space-between;
 }
+.control_label{
+  margin-top: 2rem;
+}
 .correlation_control_container{
   width: 40%;
 }
@@ -445,6 +453,12 @@ select {
 .adj{
   margin-right: -0.3rem;
 }
+.correlation_control,
+#select_time,
+#feature_,
+#select_product{
+  margin: 1.5rem;
+}
 .comp{
   display: flex;
   /* align-items: flex-end; */
@@ -453,7 +467,7 @@ select {
 
 @media (max-width:82em){
   h3{
-    font-size: 2rem;
+    font-size: 2em;
     font-weight: bold;
   }
   .title_text{
@@ -480,7 +494,7 @@ select {
 }
 @media (max-width: 57em){
   h3{
-    font-size: 2rem;
+    font-size: 4em;
     font-weight: bold;
   }
   #sidebar{
@@ -527,10 +541,19 @@ select {
     flex-direction: column;
     margin-right: -0.9em;
   }
+  #plotly_img_container{
+    margin-right: -12em;
+    display: flex;
+    justify-content: end;
+  }
+  .js-plotly-plot .plotly .modebar {
+    /* padding-top: 5%; */
+    margin: -1.5%;
+  }
 }
 @media (max-width: 38em){
   h1{
-    font-size: 4rem;
+    font-size: 16em;
   }
   #sidebar{
     width: 60%;
@@ -559,14 +582,14 @@ select {
   }
   .five.columns{
     width: 100%;
-    margin-right: 10rem;
+    margin-right: 10em;
   }
   .scroll{
     overflow-x: auto;
   }
   .seven.columns{
     width: 100%;
-    margin-right: 10rem;
+    margin-right: 10em;
   }
   .comp{
     display: flex;
@@ -580,7 +603,7 @@ select {
     width:100%;
   }
   .flex-display{
-    margin-right: 1rem;
+    margin-right: 1em;
   }
   .eight.columns{
     width: 100%;
@@ -606,7 +629,7 @@ select {
     margin-right: -1em;
   } */
   #comp_plot{
-    width: 60rem;
+    width: 60em;
   }
   .control{
     justify-content: center;
@@ -615,19 +638,19 @@ select {
     flex-direction: row;
   }
   .title_text{
-    font-size: 0.1rem;
+    font-size: 0.1em;
     text-align: center;
   }
   .select{
     width: 100%
   }
   #control2{
-    padding-right: 8rem;
-    margin-left: 6rem;
+    padding-right: 8em;
+    margin-left: 6em;
   }
   #control1{
-    padding-right: 6rem;
-    margin-left: 6rem;
+    padding-right: 6em;
+    margin-left: 6em;
   }
   .tab_ind{
     height: 30em;
