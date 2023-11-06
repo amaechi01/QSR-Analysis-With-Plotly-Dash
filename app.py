@@ -310,14 +310,14 @@ app.layout = html.Div([
         html.Div([
             html.Div([
                  html.I(
-                    className="fa-solid fa-bowl-food fa-bounce fa-2xl icon",
+                    className="fa-solid fa-bowl-food fa-bounce fa-2xl t_icon",
                 ),
             ],id='product-logo', className='three columns'),
             html.Div([
                 html.H1('QSR Sales Data Analysis',id='Main_title')
             ],className='six columns title_text'),
             html.Div([
-                'Oshim Amaechi Henry'
+                'Oshim Amaechi'
             ],id='author',className='three columns'),
         ],id='title_container',className='row flex-display'),
         html.Div([

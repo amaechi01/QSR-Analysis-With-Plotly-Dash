@@ -551,9 +551,12 @@ select {
     margin: -1.5%;
   }
 }
-@media (max-width: 38em){
+@media (max-width: 44em){
   h1{
     font-size: 16em;
+  }
+  h3{
+    font-size: 2em;
   }
   #sidebar{
     width: 60%;
@@ -572,10 +575,16 @@ select {
     justify-content: space-between;
   }
   #plotly_img_container{
-    margin-right: -10em;
+    margin-right: -5em;
   } 
   .four.columns{
     width: 50%;
+  }
+  .three.columns{
+    width: 38%;
+  }
+  .t_icon{
+    visibility: hidden;
   }
   .flex-display{
     flex-direction: column;
@@ -653,6 +662,6 @@ select {
     margin-left: 6em;
   }
   .tab_ind{
-    height: 30em;
+    height: 25em;
   }
 }
